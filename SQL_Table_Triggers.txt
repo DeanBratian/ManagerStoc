@@ -1,0 +1,83 @@
+CREATE TRIGGER trigger_ProdusInStoc ON Produs AFTER INSERT , UPDATE
+AS BEGIN
+    
+    SET NOCOUNT ON;
+   begin
+
+      update Produs set Produs.ProdusInStoc = 1
+      from Produs inner join inserted on Produs.IdProdus = inserted.IdProdus
+      where Inserted.Cantitate > 0 
+
+            update Produs set Produs.ProdusInStoc = 0
+      from Produs inner join inserted on Produs.IdProdus = inserted.IdProdus
+      where Inserted.Cantitate = 0 
+
+   end
+END;
+
+
+CREATE OR ALTER TRIGGER trigger_StergereIntrare ON Intrare INSTEAD OF DELETE
+AS BEGIN
+    
+    SET NOCOUNT ON;
+   begin
+
+      update Intrare set Intrare.Deleted = 1
+      from Intrare inner join deleted on Intrare.IdIntrare = deleted.IdIntrare
+   end
+END;
+
+CREATE OR ALTER TRIGGER trigger_UpdateCantitateInProdus ON Intrare AFTER INSERT
+AS BEGIN
+    
+    SET NOCOUNT ON;
+   begin
+	
+    Update Produs 
+    SET
+    Produs.Cantitate =  Produs.Cantitate + inserted.Cantitate From Produs inner join inserted on Produs.IdProdus = inserted.IdProdus
+    WHERE Produs.IdFurnizor = inserted.IdFurnizor
+
+     update Furnizor set Furnizor.UltimaModificareProdus = GETDATE()
+      from Furnizor inner join inserted on Furnizor.IdFurnizor = inserted.IdFurnizor
+      where  Furnizor.IdFurnizor  = Inserted.IdFurnizor
+    
+   END
+END;
+
+
+CREATE TRIGGER trigger_StergereVanzare ON Vanzare INSTEAD OF DELETE
+AS BEGIN
+    
+    SET NOCOUNT ON;
+   begin
+
+      update Vanzare set Vanzare.Deleted = 1
+      from Vanzare inner join deleted on Vanzare.IdVanzare = deleted.IdVanzare
+   end
+END;
+
+
+CREATE TRIGGER trigger_StergereVanzareServiciu ON VanzareServiciu INSTEAD OF DELETE
+AS BEGIN
+    
+    SET NOCOUNT ON;
+   begin
+
+      update VanzareServiciu set VanzareServiciu.Deleted = 1
+      from VanzareServiciu inner join deleted on VanzareServiciu.IdVanzare = deleted.IdVanzare
+   end
+END;
+
+
+
+CREATE TRIGGER trigger_StergereVanzareProdus ON VanzareProdus INSTEAD OF DELETE
+AS BEGIN
+    
+    SET NOCOUNT ON;
+   begin
+
+      update VanzareProdus set VanzareProdus.Deleted = 1
+      from VanzareProdus inner join deleted on VanzareProdus.IdVanzare = deleted.IdVanzare
+   end
+END;

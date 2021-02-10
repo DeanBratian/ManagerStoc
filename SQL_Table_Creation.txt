@@ -1,0 +1,156 @@
+
+
+CREATE TABLE [dbo].[Login]
+(
+	[IdUser] INT NOT NULL PRIMARY KEY IDENTITY,
+	[Username] varchar(20) NOT NULL ,
+	[Parola] varchar(20) NOT NULL 
+
+);
+
+
+CREATE TABLE [dbo].[Furnizor]
+(
+	[IdFurnizor] INT NOT NULL PRIMARY KEY IDENTITY,
+	[NumeFurnizor] varchar(30) NOT NULL ,
+	[Detalii] varchar(30) NOT NULL ,
+	[UltimaModificareProdus] datetime NULL 
+);
+
+
+CREATE TABLE [dbo].[Produs] (
+    [IdProdus]        INT          IDENTITY (1, 1) NOT NULL,
+    [NumeProdus]      VARCHAR (30) NOT NULL,
+    [DescriereProdus] VARCHAR (30) NOT NULL,
+    [PretCumparare]   FLOAT (53)   NOT NULL,
+    [PretVanzare]     FLOAT (53)   NOT NULL,
+    [ProdusInStoc]    BIT          NULL,
+    [Cantitate]       INT          DEFAULT (0) NOT NULL,
+    [UnitateMasura]   VARCHAR (10) NOT NULL,
+    [IdFurnizor]      INT          NOT NULL,
+    PRIMARY KEY CLUSTERED ([IdProdus] ASC),
+    FOREIGN KEY (IdFurnizor) REFERENCES Furnizor(IdFurnizor)
+);
+
+
+
+CREATE TABLE [dbo].[Serviciu]
+(
+	[IdServiciu] INT NOT NULL PRIMARY KEY IDENTITY,
+	[NumeServiciu] varchar(40) NOT NULL ,
+	[DescriereServiciu] varchar(40) NOT NULL ,
+	[Durata] int NOT NULL ,
+	[Pret] float  NOT NULL
+
+);
+
+
+CREATE TABLE [dbo].[NrInmatriculare]
+(
+	[IdNrInmatriculare] INT NOT NULL PRIMARY KEY IDENTITY,
+	[NrInmatriculare] varchar(10) NOT NULL,
+
+);
+
+CREATE TABLE [dbo].[Client]
+(
+	[IdClient] INT NOT NULL PRIMARY KEY IDENTITY,
+	[NumeClient] varchar(30) NOT NULL ,
+	[DescriereClient] varchar(30) NOT NULL ,
+	[CodFiscal] varchar(10) NOT NULL 
+);
+
+
+CREATE TABLE [dbo].[Contract]
+(
+	[IdContract] INT NOT NULL PRIMARY KEY IDENTITY,
+	[DetaliiContract] varchar(30) NOT NULL ,
+	[Durata] int NOT NULL ,
+	[IdClient] int NOT NULL ,
+	FOREIGN KEY (IdClient) REFERENCES Client(IdClient)
+);
+
+
+CREATE TABLE [dbo].[Factura]
+(
+	[IdFactura] INT NOT NULL PRIMARY KEY IDENTITY,
+	[IdClient] int NOT NULL ,
+	[IdContract] int NOT NULL ,
+	[DataScadenta] date NOT NULL ,
+	[SumaTotala] float NOT NULL,
+	[FacturaAchitata] bit NOT NULL,
+	[DirectieFactura] varchar(10) NOT NULL
+	FOREIGN KEY (IdContract) REFERENCES Contract(IdContract),
+	FOREIGN KEY (IdClient) REFERENCES Client(IdClient)
+);
+
+CREATE TABLE [dbo].[Intrare] (
+    [IdIntrare]     INT        IDENTITY (1, 1) NOT NULL,
+    [IdProdus]      INT        NOT NULL,
+    [Cantitate]     INT        NOT NULL,
+    [IdFurnizor]    INT        NOT NULL,
+    [DataIntrare]   DATETIME   DEFAULT (getdate()) NOT NULL,
+    [PretCumparare] FLOAT (53) NOT NULL,
+    [Deleted]       BIT        DEFAULT ((0)) NULL,
+    PRIMARY KEY CLUSTERED ([IdIntrare] ASC),
+    FOREIGN KEY ([IdFurnizor]) REFERENCES [dbo].[Furnizor] ([IdFurnizor]),
+    FOREIGN KEY ([IdProdus]) REFERENCES [dbo].[Produs] ([IdProdus])
+);
+
+CREATE TABLE [dbo].[ListaPreturi]
+(
+	[IdPretTotal] INT NOT NULL PRIMARY KEY IDENTITY,
+	[NumeServiciuTotal] varchar(40) NOT NULL ,
+	[Detalii] varchar(40) NOT NULL ,
+	[Pret] float NOT NULL ,
+	[IdContract] int NOT NULL 
+	FOREIGN KEY (IdContract) REFERENCES Contract(IdContract),
+);
+
+CREATE TABLE [dbo].[Vanzare]
+(
+	[IdVanzare] INT NOT NULL PRIMARY KEY IDENTITY,
+	[DataOraVanzare] datetime NOT NULL ,
+	[IdClient] int NOT NULL ,
+	[PretTotal] float NOT NULL ,
+	[NumarInmatriculare] varchar(20),
+	[Deleted] bit default (0),
+	FOREIGN KEY (IdClient) REFERENCES Client(IdClient),
+);
+
+CREATE TABLE [dbo].[VanzareProdus]
+(
+	[IdVanzareProdus] INT NOT NULL PRIMARY KEY IDENTITY,
+	[IdProdus] int NOT NULL ,
+	[Cantitate] int NOT NULL ,
+	[PretTotal] float NOT NULL ,
+	[IdVanzare] int NOT NULL,
+	[Deleted] bit default (0),
+	FOREIGN KEY (IdVanzare) REFERENCES Vanzare(IdVanzare),
+	FOREIGN KEY (IdProdus) REFERENCES Produs(IdProdus)
+
+);
+
+
+CREATE TABLE [dbo].[VanzareServiciu]
+(
+	[IdVanzareServiciu] INT NOT NULL PRIMARY KEY IDENTITY,
+	[IdServiciu] int NOT NULL ,
+	[Cantitate] int NOT NULL ,
+	[PretTotal] float NOT NULL ,
+	[IdVanzare] int NOT NULL,
+	[Deleted] bit default (0),
+	FOREIGN KEY (IdVanzare) REFERENCES Vanzare(IdVanzare),
+	FOREIGN KEY (IdServiciu) REFERENCES Serviciu(IdServiciu)
+);
+
+
+CREATE TABLE [dbo].[ImagineProdus]
+(
+	[IdPozaProdus] INT NOT NULL PRIMARY KEY IDENTITY,
+	[NumeFisier] varchar(100) NOT NULL,
+	[ImagineProduse] varbinary(MAX) NOT NULL,
+    	[IdProdus] int NOT NULL	
+    	FOREIGN KEY (IdProdus) REFERENCES Produs(IdProdus)
+
+)

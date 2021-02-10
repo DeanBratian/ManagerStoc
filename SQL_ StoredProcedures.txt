@@ -1,0 +1,860 @@
+
+
+CREATE OR ALTER PROCEDURE CheckIfImageExistsForProductProc(
+							@inputidprodus   int
+						    )
+
+                                          
+AS  
+  	BEGIN  
+            SELECT IdPozaProdus,NumeFisier,IdProdus FROM ImagineProdus
+	
+	WHERE IdProdus = @inputidprodus
+    END
+
+
+CREATE OR ALTER  PROCEDURE CheckIfRelatedVanzariProduseExistProc(
+							@inputidvanzare  int 
+						    )
+
+                                          
+AS  
+  	BEGIN  
+            SELECT IdVanzareProdus, PretTotal,IdProdus,Cantitate FROM VanzareProdus
+	
+	WHERE IdVanzare = @inputidvanzare
+    END
+
+CREATE  OR ALTER PROCEDURE CheckIfRelatedVanzariServiciiExistProc(
+							@inputidvanzare  int 
+						    )
+
+                                          
+AS  
+  	BEGIN  
+            SELECT IdVanzareServiciu, PretTotal FROM VanzareServiciu
+	
+	WHERE IdVanzare = @inputidvanzare
+    END
+
+
+CREATE  OR ALTER  PROCEDURE CrestereStocProc(
+		      @inputidprodus        int,  
+                      @inputcantitate   int
+			)
+
+                                          
+AS  
+  	BEGIN  
+            Update Produs
+		SET Cantitate = Cantitate + @inputcantitate
+WHERE IdProdus = @inputidprodus
+	
+    END
+
+
+
+CREATE  OR ALTER  PROCEDURE DeleteClientProc(
+					 @inputid  INT
+									)
+                                          
+AS  
+  	BEGIN  
+            DELETE from Client where IdClient = @inputid
+	
+
+        END
+
+CREATE  OR ALTER  PROCEDURE DeleteContractProc (
+			@inputid  INT
+			            )
+                                          
+AS  
+  	BEGIN  
+            DELETE from Contract where IdContract = @inputid
+	
+        END
+
+CREATE  OR ALTER  PROCEDURE DeleteFacturaProc (
+			@inputid  INT
+			            )
+                                          
+AS  
+  	BEGIN  
+            DELETE from Factura where IdFactura = @inputid
+	
+        END
+
+CREATE  OR ALTER  PROCEDURE DeleteFurnizorProc (
+			@inputid  INT
+			            )
+                                          
+AS  
+  	BEGIN  
+            DELETE from Furnizor where IdFurnizor = @inputid
+	
+        END
+
+CREATE OR ALTER  PROCEDURE DeleteImagineProc(
+			@inputid  INT
+			            )
+                                          
+AS  
+  	BEGIN  
+            DELETE from ImagineProdus where IdPozaProdus= @inputid
+	
+        END
+
+CREATE  OR ALTER  PROCEDURE DeleteIntrareProc (
+			@inputid  INT
+			            )
+                                          
+AS  
+  	BEGIN  
+            DELETE from Intrare where IdIntrare = @inputid
+	
+        END
+
+CREATE  OR ALTER  PROCEDURE DeleteNumarMasinaProc(
+					 @inputid  INT
+									)
+                                          
+AS  
+  	BEGIN  
+            DELETE from NrInmatriculare where NrInmatriculare.IdNrInmatriculare = @inputid
+	
+
+        END
+
+CREATE  OR ALTER  PROCEDURE DeletePretSTProc (
+			@inputid  INT
+			            )
+                                          
+AS  
+  	BEGIN  
+            DELETE from ListaPreturi where IdPretTotal = @inputid
+	
+        END
+
+CREATE  OR ALTER  PROCEDURE DeleteProdusProc (
+			@inputid  INT
+			            )
+                                          
+AS  
+  	BEGIN  
+            DELETE from Produs where IdProdus = @inputid
+	
+        END
+
+CREATE  OR ALTER  PROCEDURE DeleteServiciuProc (
+			@inputid  INT
+			            )
+                                          
+AS  
+  	BEGIN  
+            DELETE from Serviciu where IdServiciu = @inputid
+	
+        END
+
+CREATE  OR ALTER  PROCEDURE DeleteVanzareProc (
+			@inputid  INT
+			            )
+                                          
+AS  
+  	BEGIN  
+            DELETE from Vanzare where IdVanzare = @inputid
+	
+        END
+
+CREATE  OR ALTER  PROCEDURE DeleteVanzareProdusFromDeleteVanzareProc (
+		      @inputid		int
+					  )                   
+AS  
+  	BEGIN  
+           DELETE from VanzareProdus where VanzareProdus.IdVanzare = @inputid
+    END
+
+CREATE  OR ALTER  PROCEDURE DeleteVanzareServiciuFromDeleteVanzareProc (
+		      @inputid		int
+					  )                   
+AS  
+  	BEGIN  
+	
+	DELETE from VanzareServiciu where VanzareServiciu.IdVanzare = @inputid
+    
+	END
+
+
+CREATE  OR ALTER  PROCEDURE EditClientProc(
+
+					  @inputnume        VARCHAR(30),  
+                      @inputdescriere   VARCHAR(30), 
+                      @inputcodfiscal   VARCHAR(10),
+					  @inputid 	    int
+								)
+
+                                         
+AS  
+  	BEGIN  
+            UPDATE Client
+		SET NumeClient = @inputnume,
+		    DescriereClient = @inputdescriere,
+		    CodFiscal = @inputcodfiscal
+	
+		WHERE IdClient = @inputid
+        END
+
+ 
+  CREATE  OR ALTER  PROCEDURE EditContractProc (
+
+		      @inputdetalii        VARCHAR(30),  
+                      @inputdurata   int, 
+		      @inputid 	    int
+					  )                   
+AS  
+  	BEGIN  
+            UPDATE Contract
+		SET DetaliiContract = @inputdetalii,
+		    Durata = @inputdurata
+			
+		WHERE IdContract = @inputid
+    END
+
+CREATE  OR ALTER  PROCEDURE EditFacturaProc (
+
+		      @inputachitat bit,
+		      @inputid 	    int
+					  )                   
+AS  
+  	BEGIN  
+            UPDATE Factura
+		SET FacturaAchitata = @inputachitat
+
+		WHERE IdFactura = @inputid
+    END
+
+CREATE  OR ALTER  PROCEDURE EditFurnizorProc (
+
+		      @inputnumefurnizor        VARCHAR(30),  
+              @inputdetalii         VARCHAR(30), 
+		      @inputid 	    int
+					  )                   
+AS  
+  	BEGIN  
+            UPDATE Furnizor
+		SET NumeFurnizor = @inputnumefurnizor,
+		    Detalii = @inputdetalii         
+			
+		WHERE IdFurnizor = @inputid
+    END
+
+CREATE  OR ALTER  PROCEDURE EditNumarMasinaProc (
+
+		      @inputnrmasina        VARCHAR(10),  
+	          @inputid 	    int
+					  )
+
+                                         
+AS  
+  	BEGIN  
+            UPDATE NrInmatriculare
+		SET NrInmatriculare.NrInmatriculare = @inputnrmasina
+
+		WHERE IdNrInmatriculare = @inputid
+    END
+
+  CREATE  OR ALTER  PROCEDURE EditPretSTProc (
+
+		      @inputnume        VARCHAR(40),  
+                      @inputdetalii   VARCHAR(40), 
+		      @inputpret 	    float,
+		      @inputid		int
+					  )                   
+AS  
+  	BEGIN  
+            UPDATE ListaPreturi
+		SET NumeServiciuTotal = @inputnume,        
+		    Detalii = @inputdetalii,
+		    Pret =  @inputpret 
+			
+		WHERE IdPretTotal = @inputid
+    END
+
+CREATE  OR ALTER  PROCEDURE EditProdusProc (
+
+		      @inputnume        VARCHAR(30),  
+              @inputdescriere   VARCHAR(30), 
+              @inputpretc       float,
+              @inputpretv       float, 
+	      @inputunitatemasura   VARCHAR(10),
+	          @inputid 	    int
+					  )
+
+                                         
+AS  
+  	BEGIN  
+            UPDATE Produs
+		SET NumeProdus = @inputnume,
+		    DescriereProdus = @inputdescriere,
+		    PretCumparare = @inputpretc,
+		    PretVanzare = @inputpretv,
+		    UnitateMasura = @inputunitatemasura
+			
+		WHERE IdProdus = @inputid
+    END
+
+CREATE  OR ALTER  PROCEDURE EditServiciuProc (
+
+		      @inputnumeserviciu       VARCHAR(40),  
+                      @inputdescriereserviciu   VARCHAR(40), 
+                      @inputpret      float,
+                      @inputdurata     int,
+			@inputid			int
+	
+					  )
+
+                                         
+AS  
+  	BEGIN  
+            UPDATE Serviciu
+		SET NumeServiciu = @inputnumeserviciu,
+		    DescriereServiciu = @inputdescriereserviciu,
+		    Pret = @inputpret,
+		    Durata = @inputdurata
+
+			
+		WHERE IdServiciu = @inputid
+    END
+
+
+CREATE OR ALTER  PROCEDURE GetNumeClienti
+                                          
+AS  
+  	BEGIN  
+        Select IdClient, NumeClient FROM Client;
+        END
+
+	CREATE  OR ALTER  PROCEDURE GetNumeContracte
+                                     
+AS  
+  	BEGIN  
+        Select IdContract, DetaliiContract FROM Contract;
+    END
+
+CREATE  OR ALTER  PROCEDURE GetNumeFurnizori
+                                     
+AS  
+  	BEGIN  
+        Select IdFurnizor, NumeFurnizor FROM Furnizor;
+    END
+
+CREATE  OR ALTER  PROCEDURE GetNumeFurnizoriPentruProdus
+						(
+						@inputidprodus  INT
+						)
+                                     
+AS  
+  	BEGIN  
+        Select Produs.IdFurnizor, Furnizor.NumeFurnizor FROM Produs
+       LEFT JOIN Furnizor ON Produs.IdFurnizor = Furnizor.IdFurnizor
+WHERE IdProdus = @inputidprodus;
+    END
+
+	CREATE  OR ALTER  PROCEDURE GetNumeProduse
+                                     
+AS  
+  	BEGIN  
+        Select IdProdus, NumeProdus FROM Produs;
+    END
+
+CREATE  OR ALTER PROCEDURE GetNumereInmatriculareProc
+
+                                          
+AS  
+  	BEGIN  
+            SELECT IdNrInmatriculare, NrInmatriculare FROM NrInmatriculare
+	
+    END
+
+CREATE OR ALTER  PROCEDURE GetProdusCantitateDeModificatProc(
+							@inputidintrare  int 
+						    )
+
+                                          
+AS  
+  	BEGIN  
+            SELECT IdIntrare, IdProdus,Cantitate FROM Intrare
+	
+	WHERE IdIntrare = @inputidintrare
+    END
+
+
+CREATE  OR ALTER PROCEDURE InsertClientProc(  
+					  @inputnume        VARCHAR(30),  
+                      @inputdescriere   VARCHAR(30), 
+                      @inputcodfiscal   VARCHAR(10)
+                                          )  
+AS  
+  	BEGIN  
+            INSERT INTO Client (NumeClient,DescriereClient,CodFiscal)  
+            VALUES (@inputnume,@inputdescriere, @inputcodfiscal)  
+        END
+
+
+CREATE OR ALTER  PROCEDURE InsertContractProc(  
+		      @inputdetalii        VARCHAR(30),  
+                      @inputdurata   int, 
+                      @inputidclient int
+                                          )  
+AS  
+  	BEGIN  
+            INSERT INTO Contract (DetaliiContract,Durata,IdClient)  
+            VALUES (@inputdetalii,@inputdurata, @inputidclient)  
+    END
+
+
+CREATE  OR ALTER PROCEDURE InsertFacturaProc(  
+		      @inputidclient        int,  
+                      @inputidcontract   int, 
+                      @inputdatascadenta       date,
+                      @inputsumatotala       float, 
+	              @inputfacturaachitata   bit,
+		      @inputdirectiefactura   varchar(10)                 
+                                          )  
+AS  
+  	BEGIN  
+            INSERT INTO Factura(IdClient,IdContract,DataScadenta,SumaTotala,FacturaAchitata,DirectieFactura)  
+            VALUES (@inputidclient,@inputidcontract, @inputdatascadenta,@inputsumatotala,@inputfacturaachitata,@inputdirectiefactura)  
+    END
+
+
+CREATE  OR ALTER PROCEDURE InsertFurnizorProc(  
+		      @inputnumefurnizor        VARCHAR(30),  
+              @inputdetalii   varchar(30)
+                                          )  
+AS  
+  	BEGIN  
+            INSERT INTO Furnizor(NumeFurnizor,Detalii)  
+            VALUES (@inputnumefurnizor,@inputdetalii)  
+    END
+
+
+CREATE  OR ALTER PROCEDURE InsertImagineProdusProc(  
+		      @inputnumefisier        VARCHAR(100),  
+                      @inputimagine   varbinary(MAX), 
+                      @inputidprodus int
+                                          )  
+AS  
+  	BEGIN  
+            INSERT INTO ImagineProdus(NumeFisier,ImagineProduse,IdProdus)  
+            VALUES (@inputnumefisier,@inputimagine, @inputidprodus) 		
+    END
+
+
+CREATE OR ALTER  PROCEDURE InsertIntrareProc(  
+		      @inputidprodus        int,  
+		      @inputcantitate   int,
+                      @inputidfurnizor  int,
+			@inputpretc  float
+                                          )  
+AS  
+  	BEGIN  
+            INSERT INTO Intrare (IdProdus,Cantitate,IdFurnizor,PretCumparare)  
+            VALUES (@inputidprodus, @inputcantitate,@inputidfurnizor,@inputpretc)  
+    END
+
+CREATE  OR ALTER PROCEDURE InsertNrMasinaProc(  
+		      @inputnrmasina        VARCHAR(10)
+                                          )  
+AS  
+  	BEGIN  
+            INSERT INTO NrInmatriculare (NrInmatriculare)  
+            VALUES (@inputnrmasina)  
+    END
+
+CREATE  OR ALTER  PROCEDURE InsertPretSTProc(  
+		      @inputnumest        VARCHAR(40),  
+                      @inputdetalii   varchar(40), 
+                      @inputpret      float,
+		     @inputidcontract int
+                                          )  
+AS  
+  	BEGIN  
+            INSERT INTO ListaPreturi (NumeServiciuTotal,Detalii,Pret,IdContract)  
+            VALUES (@inputnumest,@inputdetalii, @inputpret,@inputidcontract)  
+    END
+
+
+CREATE  OR ALTER PROCEDURE InsertProdusProc(  
+		      @inputnume        VARCHAR(30),  
+                      @inputdescriere   VARCHAR(30), 
+                      @inputpretc       float,
+                      @inputpretv       float, 
+	              @inputunitatemasura   VARCHAR(10),
+                      @inputidfurnizor int
+                                          )  
+AS  
+  	BEGIN  
+            INSERT INTO Produs (NumeProdus,DescriereProdus,IdFurnizor,PretCumparare,PretVanzare,UnitateMasura)  
+            VALUES (@inputnume,@inputdescriere, @inputidfurnizor,@inputpretc,@inputpretv,@inputunitatemasura)  
+    END
+
+CREATE  OR ALTER PROCEDURE InsertServiciuProc(  
+		      @inputnumeserviciu        varchar(40),  
+                      @inputdescriereserviciu   varchar(40), 
+                      @inputdurata      int,
+                      @inputpret       float              
+                                          )  
+AS  
+  	BEGIN  
+            INSERT INTO Serviciu(NumeServiciu,DescriereServiciu,Durata,Pret)  
+            VALUES (@inputnumeserviciu,@inputdescriereserviciu, @inputdurata,@inputpret)  
+    END
+
+
+CREATE  OR ALTER PROCEDURE InsertVanzareProc(  
+		      @inputdataora        datetime,  
+                      @inputidclient   int,
+                      @inputprettotal       float,
+                      @inputnrmasina       varchar(20),
+			@id int output
+                                          )  
+AS  
+  	BEGIN  
+            INSERT INTO Vanzare (DataOraVanzare,IdClient,PretTotal,NumarInmatriculare)  
+            VALUES (@inputdataora,@inputidclient, @inputprettotal,@inputnrmasina)  
+
+			 SET @id=SCOPE_IDENTITY()
+      RETURN  @id
+    END
+
+
+CREATE  OR ALTER PROCEDURE InsertVanzareProdusProc(  
+		      @inputidprodus        int,  
+                      @inputcantitate   int,
+                      @inputprettotal       float,
+                      @inputidvanzare       int
+                                          )  
+AS  
+  	BEGIN  
+            INSERT INTO VanzareProdus (IdProdus,Cantitate,PretTotal,IdVanzare)  
+            VALUES (@inputidprodus,@inputcantitate, @inputprettotal,@inputidvanzare)  
+    END
+
+
+CREATE  OR ALTER PROCEDURE InsertVanzareServiciuProc(  
+		      @inputidserviciu        int,  
+                      @inputcantitate   int,
+                      @inputprettotal       float,
+                      @inputidvanzare       int
+                                          )  
+AS  
+  	BEGIN  
+            INSERT INTO VanzareServiciu (IdServiciu,Cantitate,PretTotal,IdVanzare)  
+            VALUES (@inputidserviciu,@inputcantitate, @inputprettotal,@inputidvanzare)  
+    END
+
+
+
+CREATE  OR ALTER PROCEDURE LoginProc		
+						(  
+						@user nvarchar(20),
+						@pw nvarchar(20)
+						) 
+						
+						AS
+	BEGIN  
+		SELECT Username,Parola FROM Login where Username = @user and Parola = @pw
+	END
+
+
+CREATE OR ALTER  PROCEDURE SaveNewAccountProc         
+						(  
+						@user nvarchar(20),
+						@pw nvarchar(20)
+						) 
+AS
+	BEGIN  
+		INSERT INTO Login (Username,Parola) VALUES (@user,@pw)
+	END
+
+
+CREATE  OR ALTER  PROCEDURE ScadereStocProc(
+		      @inputidprodus        int,  
+                      @inputcantitate   int
+			)
+
+                                          
+AS  
+  	BEGIN  
+            Update Produs
+		SET Cantitate = Cantitate - @inputcantitate
+WHERE IdProdus = @inputidprodus
+	
+    END
+
+
+
+CREATE  OR ALTER  PROCEDURE SelectAllClientiProc
+
+                                          
+AS  
+  	BEGIN  
+            SELECT Client.IdClient,Client.NumeClient,Client.DescriereClient,Client.CodFiscal FROM Client
+	
+        END
+
+
+CREATE  OR ALTER  PROCEDURE SelectAllContracteProc
+
+                                          
+AS  
+  	BEGIN  
+            SELECT Contract.IdContract,Contract.DetaliiContract,Contract.Durata,Client.NumeClient FROM Contract
+	LEFT JOIN Client ON Contract.IdClient = Client.IdClient
+        END
+
+
+CREATE  OR ALTER  PROCEDURE SelectAllFacturiProc
+
+                                          
+AS  
+  	BEGIN  
+            SELECT Factura.IdFactura,cl.NumeClient,co.DetaliiContract,Factura.DataScadenta,Factura.SumaTotala,Factura.FacturaAchitata, Factura.DirectieFactura FROM Factura
+	LEFT JOIN Client cl ON cl.IdClient = Factura.IdClient
+	LEFT JOIN Contract co ON co.IdContract = Factura.IdContract
+        END
+
+
+CREATE  OR ALTER  PROCEDURE SelectAllFurnizoriProc
+
+                                          
+AS  
+  	BEGIN  
+            SELECT IdFurnizor,NumeFurnizor,Detalii,UltimaModificareProdus FROM Furnizor
+
+    END
+
+
+
+CREATE OR ALTER  PROCEDURE SelectAllIntrariProc
+
+                                          
+AS  
+  	BEGIN  
+            SELECT Intrare.IdIntrare,Produs.NumeProdus,Intrare.Cantitate, Furnizor.NumeFurnizor, Intrare.DataIntrare, Intrare.PretCumparare, Intrare.Deleted  FROM Intrare
+	
+	LEFT JOIN Furnizor ON Intrare.IdFurnizor = Furnizor.IdFurnizor
+	LEFT JOIN Produs ON Intrare.IdProdus = Produs.IdProdus
+    END
+
+CREATE  OR ALTER PROCEDURE SelectAllNumereMasinaProc
+
+                                          
+AS  
+  	BEGIN  
+            SELECT NrInmatriculare.IdNrInmatriculare, NrInmatriculare.NrInmatriculare FROM NrInmatriculare 
+	
+        END
+
+CREATE  OR ALTER  PROCEDURE SelectAllPreturiSTProc
+
+                                          
+AS  
+  	BEGIN  
+            SELECT ListaPreturi.IdPretTotal,ListaPreturi.NumeServiciuTotal,ListaPreturi.Detalii,ListaPreturi.Pret, Contract.DetaliiContract  FROM ListaPreturi
+	
+	LEFT JOIN Contract ON ListaPreturi.IdContract = Contract.IdContract
+    END
+
+CREATE OR ALTER  PROCEDURE SelectAllProduseProc
+
+                                          
+AS  
+  	BEGIN  
+            SELECT Produs.IdProdus,Produs.NumeProdus,Produs.DescriereProdus, Furnizor.NumeFurnizor, Produs.PretCumparare, Produs.PretVanzare, Produs.UnitateMasura, Produs.ProdusInStoc, Produs.Cantitate  FROM Produs
+	
+	LEFT JOIN Furnizor ON Produs.IdFurnizor = Furnizor.IdFurnizor
+    END
+
+
+CREATE  OR ALTER PROCEDURE SelectAllServiciiProc
+
+                                          
+AS  
+  	BEGIN  
+            SELECT Serviciu.IdServiciu,Serviciu.NumeServiciu,Serviciu.DescriereServiciu,Serviciu.Durata , Serviciu.Pret FROM Serviciu
+
+        END
+
+
+CREATE  OR ALTER PROCEDURE SelectAllVanzariFromClientInPerioadaProc(
+					 @inputidclient  INT,
+					@inputdatainceput datetime,
+					@inputdatasfarsit datetime
+									)
+
+                                          
+AS  
+  	BEGIN  
+            SELECT Vanzare.IdVanzare,Vanzare.DataOraVanzare, Client.NumeClient, Vanzare.PretTotal, Vanzare.NumarInmatriculare, Vanzare.Deleted
+			FROM Vanzare
+	
+	LEFT JOIN Client ON Vanzare.IdClient = Client.IdClient
+
+	WHERE DataOraVanzare >= @inputdatainceput  AND DataOraVanzare <= @inputdatasfarsit AND Client.IdClient = @inputidclient AND Deleted = 0
+
+    END
+
+CREATE OR ALTER  PROCEDURE SelectAllVanzariProc
+
+                                          
+AS  
+  	BEGIN  
+            SELECT Vanzare.IdVanzare,Vanzare.DataOraVanzare, Client.NumeClient, Vanzare.PretTotal, Vanzare.NumarInmatriculare, Vanzare.Deleted
+			FROM Vanzare
+	
+	LEFT JOIN Client ON Vanzare.IdClient = Client.IdClient
+    END
+
+
+CREATE  OR ALTER PROCEDURE SelectAllVanzariProduseProc
+
+                                          
+AS  
+  	BEGIN  
+            SELECT VanzareProdus.IdVanzareProdus, Produs.NumeProdus, VanzareProdus.Cantitate, VanzareProdus.PretTotal, Vanzare.IdVanzare, VanzareProdus.Deleted
+			FROM VanzareProdus
+	
+	LEFT JOIN Produs ON VanzareProdus.IdProdus = Produs.IdProdus
+	LEFT JOIN Vanzare ON VanzareProdus.IdVanzare = Vanzare.IdVanzare
+    END
+
+
+CREATE  OR ALTER PROCEDURE SelectAllVanzariServiciiProc
+
+                                          
+AS  
+  	BEGIN  
+            SELECT VanzareServiciu.IdVanzareServiciu, Serviciu.NumeServiciu, VanzareServiciu.Cantitate, VanzareServiciu.PretTotal, Vanzare.IdVanzare, VanzareServiciu.Deleted
+			FROM VanzareServiciu
+	
+	LEFT JOIN Serviciu  ON VanzareServiciu.IdServiciu = Serviciu.IdServiciu
+	LEFT JOIN Vanzare ON VanzareServiciu.IdVanzare = Vanzare.IdVanzare
+    END
+
+
+CREATE  OR ALTER  PROCEDURE SelectProduseGraphProc
+                                        
+AS  
+  	BEGIN  
+            SELECT NumeProdus,Cantitate, PretCumparare,PretVanzare FROM Produs
+			Where Cantitate > 0
+			ORDER BY NumeProdus ASC
+	
+    END
+
+
+CREATE  OR ALTER  PROCEDURE SelectProduseImaginiDescPretProc
+
+                                          
+AS  
+  	BEGIN  
+            SELECT ImagineProdus.ImagineProduse,Produs.NumeProdus,Produs.DescriereProdus,Produs.PretVanzare, Produs.IdProdus, Produs.Cantitate FROM ImagineProdus
+	
+	
+	LEFT JOIN Produs ON ImagineProdus.IdProdus = Produs.IdProdus 
+
+	WHERE Produs.Cantitate >0
+    END
+
+
+CREATE  OR ALTER PROCEDURE SelectProduseImaginiProc
+
+                                          
+AS  
+  	BEGIN  
+            SELECT ImagineProdus.IdPozaProdus,ImagineProdus.NumeFisier,ImagineProdus.ImagineProduse,Produs.NumeProdus FROM ImagineProdus
+	
+	LEFT JOIN Produs ON ImagineProdus.IdProdus = Produs.IdProdus
+    END
+
+
+CREATE  OR ALTER  PROCEDURE SelectServiciiGraphProc
+                                        
+AS  
+  	BEGIN  
+            SELECT NumeServiciu,Durata,Pret FROM Serviciu
+			ORDER BY NumeServiciu ASC
+	
+    END
+
+CREATE  OR ALTER PROCEDURE SelectVanzariDataAziProc
+			(
+		      @inputdataazi        datetime
+			)
+                                          
+AS  
+  	BEGIN  
+            SELECT Vanzare.IdVanzare,Vanzare.DataOraVanzare, Client.NumeClient, Vanzare.PretTotal, Vanzare.NumarInmatriculare, Vanzare.Deleted
+			FROM Vanzare 
+	
+	LEFT JOIN Client ON Vanzare.IdClient = Client.IdClient
+
+	WHERE Vanzare.DataOraVanzare >= @inputdataazi AND Deleted = 0
+    END
+
+
+CREATE  OR ALTER  PROCEDURE SelectServiciiPretProc
+
+                                          
+AS  
+  	BEGIN  
+            SELECT Serviciu.NumeServiciu,Serviciu.Pret, Serviciu.IdServiciu, Serviciu.DescriereServiciu FROM Serviciu
+	
+    END
+
+CREATE  OR ALTER  PROCEDURE UndeleteIntrareProc (
+		      @inputid		int
+					  )                   
+AS  
+  	BEGIN  
+            UPDATE Intrare 
+		SET Deleted = 0     
+			
+		WHERE IdIntrare = @inputid
+    END
+
+CREATE  OR ALTER  PROCEDURE UndeleteVanzareProc (
+		      @inputid		int
+					  )                   
+AS  
+  	BEGIN  
+            UPDATE Vanzare
+		SET Deleted = 0     
+			
+		WHERE IdVanzare = @inputid
+    END
+
+CREATE  OR ALTER  PROCEDURE UndeleteVanzareProdusFromUndeleteVanzareProc (
+		      @inputid		int
+					  )                   
+AS  
+  	BEGIN  
+            UPDATE VanzareProdus 
+		SET Deleted = 0     
+			
+		WHERE VanzareProdus.IdVanzare = @inputid
+    END
+
+
+CREATE  OR ALTER  PROCEDURE UndeleteVanzareServiciuFromUndeleteVanzareProc (
+		      @inputid		int
+					  )                   
+AS  
+  	BEGIN  
+            UPDATE VanzareServiciu
+		SET Deleted = 0     
+			
+		WHERE VanzareServiciu.IdVanzare = @inputid
+    END
